@@ -1,6 +1,12 @@
 FROM python:3.11-slim
 WORKDIR /app
 
+# python:3.11-slim no trae curl ni wget, y el healthcheck de Coolify necesita
+# uno de los dos para consultar el endpoint desde dentro del contenedor.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

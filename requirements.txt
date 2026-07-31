@@ -1,5 +1,8 @@
 flask
 gunicorn
+# torch 2.2.0 se compilo contra la ABI de NumPy 1.x; con NumPy 2 instalado
+# falla con "A module that was compiled using NumPy 1.x cannot be run".
+numpy<2
 transformers==4.41.0
 tokenizers==0.19.1
 huggingface-hub==0.23.4
