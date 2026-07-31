@@ -1,18 +1,14 @@
-from pathlib import Path
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-MODEL_PATH = Path(__file__).resolve().parent.parent / "fake_reviews_es"
+# Los pesos no viajan en el repo (.gitignore excluye los .safetensors), asi
+# que se cargan desde el Hub. El dockerfile los precarga durante el build,
+# por lo que en runtime esto resuelve contra el cache local sin bajar nada.
+MODEL_PATH = "LordMathi2741/distilbert-es"
 
-tokenizer = AutoTokenizer.from_pretrained(
-    MODEL_PATH,
-    local_files_only=True
-)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 
-model = AutoModelForSequenceClassification.from_pretrained(
-    MODEL_PATH,
-    local_files_only=True
-)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
 
 model.eval()
 
